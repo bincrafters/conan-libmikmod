@@ -64,3 +64,7 @@ class LibmikmodConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
+        if not self.options.shared:
+            self.cpp_info.defines = ['MIKMOD_STATIC']
+        if self.settings.os == 'Windows':
+            self.cpp_info.libs.append('dsound')
