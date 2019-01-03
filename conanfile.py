@@ -10,9 +10,9 @@ class LibmikmodConan(ConanFile):
     version = "3.3.11.1"
     description = "Module player and library supporting many formats, including mod, s3m, it, and xm."
     topics = ("conan", "libmikmod", "audio")
-    url = "https://github.com/sixten-hilborn/conan-libmikmod"
+    url = "https://github.com/bincrafters/conan-libmikmod"
     homepage = "http://mikmod.sourceforge.net/"
-    author = "Sixten Hilborn <sixten.hilborn@gmail.com>"
+    author = "Bincrafters <bincrafters@gmail.com>"
     license = "LGPL-2.1"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt.patch"]

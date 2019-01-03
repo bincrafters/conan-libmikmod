@@ -2,7 +2,7 @@
 
 | Bintray | Windows | Linux & macOS |
 |:--------:|:---------:|:-----------------:|
-|[ ![Download](https://api.bintray.com/packages/sixten-hilborn/public-conan/libmikmod%3Asixten-hilborn/images/download.svg) ](https://bintray.com/sixten-hilborn/public-conan/libmikmod%3Asixten-hilborn/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/uuqlrvtm9vd8q800/branch/stable/3.3.11.1?svg=true)](https://ci.appveyor.com/project/sixten-hilborn/conan-libmikmod/branch/stable/3.3.11.1)|[![Build Status](https://travis-ci.org/sixten-hilborn/conan-libmikmod.svg?branch=stable/3.3.11.1)](https://travis-ci.org/sixten-hilborn/conan-libmikmod)|
+|[ ![Download](https://api.bintray.com/packages/bincrafters/public-conan/libmikmod%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/libmikmod%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/uuqlrvtm9vd8q800/branch/stable/3.3.11.1?svg=true)](https://ci.appveyor.com/project/bincrafters/conan-libmikmod/branch/stable/3.3.11.1)|[![Build Status](https://travis-ci.org/bincrafters/conan-libmikmod.svg?branch=stable/3.3.11.1)](https://travis-ci.org/bincrafters/conan-libmikmod)|
 
 ## Conan Information
 
