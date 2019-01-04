@@ -40,7 +40,6 @@ class LibmikmodConan(ConanFile):
         download_url = "https://sourceforge.net/projects/mikmod/files/{0}/{1}/{2}.tar.gz".format(self.name, self.version, extracted_dir)
         tools.get(download_url, sha256="ad9d64dfc8f83684876419ea7cd4ff4a41d8bcd8c23ef37ecb3a200a16b46d19")
 
-        # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
 
         tools.patch(patch_file="CMakeLists.txt.patch", base_path=self._source_subfolder)
