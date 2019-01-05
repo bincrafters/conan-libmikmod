@@ -68,3 +68,6 @@ class LibmikmodConan(ConanFile):
             self.cpp_info.defines = ['MIKMOD_STATIC']
         if self.settings.os == 'Windows':
             self.cpp_info.libs.append('dsound')
+        elif self.settings.os == 'Macos':
+            self.cpp_info.exelinkflags.append('-framework CoreAudio')
+            self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
