@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <mikmod.h>
 #include <cstdlib>
 #include <cstring>
@@ -14,7 +15,7 @@ int main()
         // some CI environments doesn't support audio, so we'll just ignore errors there
         const char* ignoreEnvvar = std::getenv("IGNORE_LIBMIKMOD_TEST_ERRORS");
         if (ignoreEnvvar && std::strcmp(ignoreEnvvar, "true") == 0)
-            return 0
+            return 0;
         else
             return err;
     }
