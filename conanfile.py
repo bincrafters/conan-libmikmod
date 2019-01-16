@@ -34,9 +34,9 @@ class LibmikmodConan(ConanFile):
         "fPIC": True,
         "with_dsound": True,
         "with_mmsound": True,
-        "with_alsa": True,
+        "with_alsa": False,
         "with_oss": True,
-        "with_pulse": True,
+        "with_pulse": False,
         "with_coreaudio": True
     }
 
