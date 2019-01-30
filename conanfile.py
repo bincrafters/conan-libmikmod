@@ -59,6 +59,21 @@ class LibmikmodConan(ConanFile):
         if self.settings.os not in ['Macos', 'iOS', 'watchOS', 'tvOS']:
             del self.options.with_coreaudio
 
+    def system_requirements(self):
+        if self.settings.os == "Linux" and tools.os_info.is_linux:
+            if tools.os_info.with_apt:
+                installer = tools.SystemPackageTool()
+                arch_suffix = ''
+                if self.settings.arch == "x86":
+                    arch_suffix = ':i386'
+                elif self.settings.arch == "x86_64":
+                    arch_suffix = ':amd64'
+
+                if self.options.with_alsa:
+                    installer.install('libasound2-dev' + arch_suffix)
+                if self.options.with_pulse:
+                    installer.install('libpulse-dev' + arch_suffix)
+
     def source(self):
         extracted_dir = self.name + "-" + self.version
         download_url = "https://sourceforge.net/projects/mikmod/files/{0}/{1}/{2}.tar.gz".format(self.name, self.version, extracted_dir)
