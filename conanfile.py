@@ -69,10 +69,13 @@ class LibmikmodConan(ConanFile):
                 elif self.settings.arch == "x86_64":
                     arch_suffix = ':amd64'
 
+                packages = []
                 if self.options.with_alsa:
-                    installer.install('libasound2-dev' + arch_suffix)
+                    packages.append('libasound2-dev%s' % arch_suffix)
                 if self.options.with_pulse:
-                    installer.install('libpulse-dev' + arch_suffix)
+                    packages.append('libpulse-dev%s' % arch_suffix)
+                for package in packages:
+                    installer.install(package)
 
     def source(self):
         extracted_dir = self.name + "-" + self.version
@@ -131,7 +134,7 @@ class LibmikmodConan(ConanFile):
         if self._get_safe_bool('with_alsa'):
             self.cpp_info.libs.append('asound')
         if self._get_safe_bool('with_pulse'):
-            self.cpp_info.libs.extend(['pulse-simple', 'pulse'])
+            self.cpp_info.libs.append('pulse')
         if self._get_safe_bool('with_coreaudio'):
             self.cpp_info.exelinkflags.append('-framework CoreAudio')
             self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
