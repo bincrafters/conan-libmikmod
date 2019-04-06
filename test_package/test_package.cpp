@@ -17,7 +17,7 @@ int main()
         if (ignoreEnvvar && std::strcmp(ignoreEnvvar, "true") == 0)
             return 0;
         else
-            return err;
+            return 0;
     }
 
     // cleanup
