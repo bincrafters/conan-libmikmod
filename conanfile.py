@@ -94,7 +94,7 @@ class LibmikmodConan(ConanFile):
             'MESSAGE(FATAL_ERROR')
 
     def _configure_cmake(self):
-        cmake = CMake(self)
+        cmake = CMake(self, set_cmake_flags=True)
         cmake.definitions['ENABLE_STATIC'] = not self.options.shared
         cmake.definitions['ENABLE_DOC'] = False
         cmake.definitions['ENABLE_DSOUND'] = self._get_safe_bool('with_dsound')
@@ -134,7 +134,7 @@ class LibmikmodConan(ConanFile):
         if self._get_safe_bool('with_alsa'):
             self.cpp_info.libs.append('asound')
         if self._get_safe_bool('with_pulse'):
-            self.cpp_info.libs.append('pulse')
+            self.cpp_info.libs.extend(['pulse', 'pulse-simple'])
         if self._get_safe_bool('with_coreaudio'):
             self.cpp_info.exelinkflags.append('-framework CoreAudio')
             self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
