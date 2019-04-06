@@ -114,6 +114,10 @@ class LibmikmodConan(ConanFile):
             return False
 
     def build(self):
+        tools.replace_in_file(os.path.join(self._source_subfolder, "drivers", "drv_alsa.c"),
+                              "alsa_pcm_close(pcm_h);",
+                              "if (pcm_h) alsa_pcm_close(pcm_h);")
+
         cmake = self._configure_cmake()
         cmake.build()
 
