@@ -52,7 +52,7 @@ class LibmikmodConan(ConanFile):
         if self.settings.os != 'Linux':
             del self.options.with_alsa
         # Non-Apple Unices
-        if self.settings.os not in ['Linux', 'Android', 'FreeBSD']:
+        if self.settings.os not in ['Linux', 'FreeBSD']:
             del self.options.with_oss
             del self.options.with_pulse
         # Apple
