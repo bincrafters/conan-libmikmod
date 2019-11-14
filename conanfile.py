@@ -9,7 +9,6 @@ class LibmikmodConan(ConanFile):
     topics = ("conan", "libmikmod", "audio")
     url = "https://github.com/bincrafters/conan-libmikmod"
     homepage = "http://mikmod.sourceforge.net/"
-    author = "Bincrafters <bincrafters@gmail.com>"
     license = "LGPL-2.1"
     exports = ["LICENSE.md"]
     exports_sources = ["CMakeLists.txt.patch"]
