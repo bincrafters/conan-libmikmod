@@ -55,21 +55,18 @@ class LibmikmodConan(ConanFile):
         if self.settings.os not in ['Macos', 'iOS', 'watchOS', 'tvOS']:
             del self.options.with_coreaudio
 
+    def requirements(self):
+        if self.settings.os == "Linux":
+            if self.options.with_alsa:
+                self.requires('libalsa/1.1.9')
+
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
             if tools.os_info.with_apt:
                 installer = tools.SystemPackageTool()
-                arch_suffix = ''
-                if self.settings.arch == "x86":
-                    arch_suffix = ':i386'
-                elif self.settings.arch == "x86_64":
-                    arch_suffix = ':amd64'
-
                 packages = []
-                if self.options.with_alsa:
-                    packages.append('libasound2-dev%s' % arch_suffix)
                 if self.options.with_pulse:
-                    packages.append('libpulse-dev%s' % arch_suffix)
+                    packages.append('libpulse-dev')
                 for package in packages:
                     installer.install(package)
 
@@ -128,13 +125,10 @@ class LibmikmodConan(ConanFile):
             self.cpp_info.defines = ['MIKMOD_STATIC']
 
         if self._get_safe_bool('with_dsound'):
-            self.cpp_info.libs.append('dsound')
+            self.cpp_info.system_libs.append('dsound')
         if self._get_safe_bool('with_mmsound'):
-            self.cpp_info.libs.append('winmm')
-        if self._get_safe_bool('with_alsa'):
-            self.cpp_info.libs.append('asound')
+            self.cpp_info.system_libs.append('winmm')
         if self._get_safe_bool('with_pulse'):
-            self.cpp_info.libs.extend(['pulse', 'pulse-simple'])
+            self.cpp_info.system_libs.extend(['pulse', 'pulse-simple'])
         if self._get_safe_bool('with_coreaudio'):
-            self.cpp_info.exelinkflags.append('-framework CoreAudio')
-            self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
+            self.cpp_info.frameworks.append('CoreAudio')
