@@ -59,16 +59,8 @@ class LibmikmodConan(ConanFile):
         if self.settings.os == "Linux":
             if self.options.with_alsa:
                 self.requires('libalsa/1.1.9')
-
-    def system_requirements(self):
-        if self.settings.os == "Linux" and tools.os_info.is_linux:
-            if tools.os_info.with_apt:
-                installer = tools.SystemPackageTool()
-                packages = []
-                if self.options.with_pulse:
-                    packages.append('libpulse-dev')
-                for package in packages:
-                    installer.install(package)
+            if self.options.with_pulse:
+                self.requires('pulseaudio/13.0@bincrafters/stable')
 
     def source(self):
         extracted_dir = self.name + "-" + self.version
