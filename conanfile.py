@@ -8,10 +8,9 @@ class LibmikmodConan(ConanFile):
     description = "Module player and library supporting many formats, including mod, s3m, it, and xm."
     topics = ("conan", "libmikmod", "audio")
     url = "https://github.com/bincrafters/conan-libmikmod"
-    homepage = "http://mikmod.sourceforge.net/"
+    homepage = "http://mikmod.sourceforge.net"
     license = "LGPL-2.1"
-    exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt.patch"]
+    exports_sources = ["patches/*"]
     generators = "cmake"
 
     settings = "os", "arch", "compiler", "build_type"
@@ -55,6 +54,10 @@ class LibmikmodConan(ConanFile):
         if self.settings.os not in ['Macos', 'iOS', 'watchOS', 'tvOS']:
             del self.options.with_coreaudio
 
+    def configure(self):
+        del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
+
     def requirements(self):
         if self.settings.os == "Linux":
             if self.options.with_alsa:
@@ -63,20 +66,9 @@ class LibmikmodConan(ConanFile):
                 self.requires('pulseaudio/13.0@bincrafters/stable')
 
     def source(self):
+        tools.get(**self.conan_data["sources"][self.version])
         extracted_dir = self.name + "-" + self.version
-        download_url = "https://sourceforge.net/projects/mikmod/files/{0}/{1}/{2}.tar.gz".format(self.name, self.version, extracted_dir)
-        tools.get(download_url, sha256="ad9d64dfc8f83684876419ea7cd4ff4a41d8bcd8c23ef37ecb3a200a16b46d19")
-
         os.rename(extracted_dir, self._source_subfolder)
-
-        # Patch CMakeLists.txt to run `conan_basic_setup`, to avoid building shared lib when
-        # shared=False, and a fix to install .dlls correctly on Windows
-        tools.patch(patch_file="CMakeLists.txt.patch", base_path=self._source_subfolder)
-
-        # Ensure missing dependencies yields errors
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
-            'MESSAGE(WARNING',
-            'MESSAGE(FATAL_ERROR')
 
     def _configure_cmake(self):
         cmake = CMake(self, set_cmake_flags=True)
@@ -99,6 +91,18 @@ class LibmikmodConan(ConanFile):
             return False
 
     def build(self):
+        if self.conan_data["patches"][self.version]:
+            # 0001:
+            #   Patch CMakeLists.txt to run `conan_basic_setup`, to avoid building shared lib when
+            #   shared=False, and a fix to install .dlls correctly on Windows
+            for patch in self.conan_data["patches"][self.version]:
+                tools.patch(**patch)
+ 
+         # Ensure missing dependencies yields errors
+        tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
+                              'MESSAGE(WARNING',
+                              'MESSAGE(FATAL_ERROR')
+ 
         tools.replace_in_file(os.path.join(self._source_subfolder, "drivers", "drv_alsa.c"),
                               "alsa_pcm_close(pcm_h);",
                               "if (pcm_h) alsa_pcm_close(pcm_h);")
@@ -110,6 +114,8 @@ class LibmikmodConan(ConanFile):
         self.copy(pattern="COPYING.LESSER", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
+        tools.rmdir(os.path.join(self.package_folder, "bin"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
