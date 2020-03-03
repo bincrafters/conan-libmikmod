@@ -126,7 +126,5 @@ class LibmikmodConan(ConanFile):
             self.cpp_info.system_libs.append('dsound')
         if self._get_safe_bool('with_mmsound'):
             self.cpp_info.system_libs.append('winmm')
-        if self._get_safe_bool('with_pulse'):
-            self.cpp_info.system_libs.extend(['pulse', 'pulse-simple'])
         if self._get_safe_bool('with_coreaudio'):
             self.cpp_info.frameworks.append('CoreAudio')
